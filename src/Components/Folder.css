@@ -1,0 +1,8 @@
+.sidebar {
+    margin-right: 15px;
+}
+
+.folder {
+    display: flex;
+    flex-direction: row;
+}

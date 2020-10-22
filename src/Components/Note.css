@@ -1,0 +1,12 @@
+.sidebar {
+    margin-right: 15px;
+}
+
+.note {
+    display: flex;
+    flex-direction: row;
+}
+
+.text {
+    padding-left: 165px;
+}

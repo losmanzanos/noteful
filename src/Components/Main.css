@@ -1,0 +1,8 @@
+.sidebar {
+    margin-right: 15px;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+}
