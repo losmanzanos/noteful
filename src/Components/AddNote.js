@@ -53,9 +53,10 @@ class NewNote extends React.Component {
             name="note"
             id="note"
             ref={this.noteName}
-            defaultValue="Name"
+            placeholder="Name"
             aria-label="Name of note"
             aria-required="true"
+            required
           />
         </div>
 
@@ -67,9 +68,10 @@ class NewNote extends React.Component {
             name="notecontent"
             id="notecontent"
             ref={this.noteContent}
-            defaultValue="Blah blah blah..."
+            placeholder="Blah blah blah..."
             aria-label="Note content"
             aria-required="true"
+            required
           />
         </div>
 

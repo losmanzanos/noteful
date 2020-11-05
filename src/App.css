@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 header {
   display: flex;
   flex-direction: row;
@@ -43,4 +47,8 @@ main {
 
 .error-page button {
   margin-top: 25px;
+}
+
+.notesitems {
+  width: fit-content;
 }
