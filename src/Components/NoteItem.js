@@ -1,24 +1,32 @@
 import React from 'react';
-
+import NoteContext from './context';
+import Note from './Note';
+import PropTypes from 'prop-types';
 
 function NoteItem(props) {
-    const note = props.notes.find(note => note.id == props.match.params.id) || {} 
-    console.log(props);
-    return(
-        
-            <div>
-                <div className='noteitem'>
-                
-    <h3>{note.name}</h3>
-                    
-                    <p>Date Modified: {note.modified}</p>
-                    <button>Delete Note</button>
 
-                </div>
-                <p>{note.content}</p>
-            </div> 
-       
+    return (
+        < NoteContext.Consumer >
+            { function renderProp(value) {
+                const note = value.notes.find(note => note.id === props.match.params.id) || {}
+                return (
+                    <div>
+                        <Note note={note} handleDeleteNote={value.handleDeleteNote} history={props.history} />
+                        <p>{note.content}</p>
+                    </div>
+                );
+            }
+            }
+        </NoteContext.Consumer >
     );
+}
+
+Note.propTypes = {
+    match: PropTypes.shape( {
+        params: PropTypes.shape({
+            id: PropTypes.string,
+        })
+    }),
 }
 
 export default NoteItem;

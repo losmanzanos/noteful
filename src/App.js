@@ -1,54 +1,131 @@
-import React from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
+import "./App.css";
 
+import NoteItem from "./Components/NoteItem";
+import Sidebar from "./Components/Sidebar";
+import NoteList from "./Components/NotesList";
+import SidebarNote from "./Components/SidebarNote";
+import NewFolder from "./Components/AddFolder";
+import NewNote from "./Components/AddNote";
+import NotefulError from "./Components/NotefulError";
 
-import NoteItem from './Components/NoteItem'
-import STORE from './STORE';
-import Sidebar from './Components/Sidebar';
-import NoteList from './Components/NotesList';
-import SidebarNote from './Components/SidebarNote';
+import pencil from "../src/pencil.gif";
+
+import NoteContext from "./Components/context";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = STORE;
+  state = {
+    folders: [],
+    notes: [],
+    error: null,
+  };
+
+  componentDidMount() {
+    this.getData();
   }
 
+  getData = () => {
+    var folders, notes;
+
+    fetch("http://localhost:9090/folders")
+      .then((response) => response.json())
+      .then((data) => {
+        folders = data;
+        this.setState({ folders: folders });
+        return fetch("http://localhost:9090/notes");
+      })
+
+      .then((response) => response.json())
+      .then((data) => {
+        notes = data;
+        this.setState({ notes: notes });
+      })
+      .catch((error) => {
+        this.setState({
+          error: error.message,
+        });
+      });
+  };
+
+  handleDeleteNote = (noteId) => {
+    fetch(`http://localhost:9090/notes/${noteId}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((response) => {
+        this.setState({
+          notes: this.state.notes.filter((note) => note.id !== noteId),
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          error: error.message,
+        });
+      });
+  };
+
+  static contextType = NoteContext;
+
   render() {
-    console.log(this.state);
+    const value = {
+      notes: this.state.notes,
+      folders: this.state.folders,
+      handleDeleteNote: this.handleDeleteNote,
+      getData: this.getData,
+    };
     return (
-      <BrowserRouter>
-        <div>
-          <header>
-            <Link to='/' className='home'>
-              <h1>Noteful</h1>
-            </Link>
-          </header>
+      <NotefulError>
+        <NoteContext.Provider value={value}>
+          <BrowserRouter>
+            <div>
+              <header>
+                <img src={pencil} alt="pencil" />
+                <Link to="/" className="home">
+                  <h1>Noteful</h1>
+                </Link>
+              </header>
 
-          <hr />
+              <hr />
 
-          <main>
+              <main>
+                {this.state.error}
+                <nav>
+                  <Switch>
+                    <Route exact path="/" component={Sidebar} />
+                    <Route path="/folders" component={Sidebar} />
+                    <Route path="/notes" component={SidebarNote} />
+                    <Route path="/newfolder" component={Sidebar} />
+                    <Route path="/newnote" component={Sidebar} />
+                    <Route
+                      path="/"
+                      render={() => (
+                        <div className="error-page">
+                          404. Page not found...
+                          <br />
+                          <Link to="/">
+                            <button>Back</button>
+                          </Link>
+                        </div>
+                      )}
+                    />
+                  </Switch>
+                </nav>
 
-            <nav>
-              <Route exact path='/' render={() => <Sidebar className='sidebar' folders={this.state.folders} notes={this.state.notes} />}
-              />
-              <Route path='/folders' render={() => <Sidebar className='sidebar' folders={this.state.folders} notes={this.state.notes} />}
-              />
-              <Route path='/notes' render={() => <SidebarNote className='sidebar' folders={this.state.folders} notes={this.state.notes} />}
-              />
-            </nav>
-
-            <section>
-              <Route exact path='/' render={() => <NoteList folders={this.state.folders} notes={this.state.notes} />} />
-              <Route path='/folders/:id' render={(routerProps) => <NoteList match={routerProps.match} folders={this.state.folders} notes={this.state.notes} />} />
-              <Route path='/notes/:id' render={(routerProps) => <NoteItem match={routerProps.match} folders={this.state.folders} notes={this.state.notes} />} />
-            </section>
-
-          </main>
-          {/* <Route path='/' render={()=> <div>404. Page not found...</div>} /> */}
-        </div>
-      </BrowserRouter>
+                <section>
+                  <Route exact path="/" component={NoteList} />
+                  <Route path="/folders/:id" component={NoteList} />
+                  <Route path="/notes/:id" component={NoteItem} />
+                  <Route path="/newfolder" component={NewFolder} />
+                  <Route path="/newnote" component={NewNote} />
+                </section>
+              </main>
+            </div>
+          </BrowserRouter>
+        </NoteContext.Provider>
+      </NotefulError>
     );
   }
 }

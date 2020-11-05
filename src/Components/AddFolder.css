@@ -1,0 +1,9 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.foldersubmit {
+    width: 100px;
+    margin: 10px auto;
+}

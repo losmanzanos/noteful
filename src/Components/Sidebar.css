@@ -1,5 +1,5 @@
 .sidebar {
-    height: 196px;
+    height: auto;
     width: 150px;
     top: 0;
     left: 0;
@@ -19,4 +19,8 @@
     color: black;
     display: block;
     font-size: 16px;
+}
+
+.add-folder {
+    margin-bottom: 20px;
 }

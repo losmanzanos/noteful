@@ -1,22 +1,29 @@
 import React from 'react';
 import './Sidebar.css';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-function SidebarNote(props) {
-    console.log(props);
+import NoteContext from './context';
+
+function SidebarNote() {
 
     return (
-        <div className='sidebar'>
+        <NoteContext.Consumer>
+            {function renderProp() {
+                return (
+                    <div className='sidebar'>
 
-            <div className='folders'>
-                <Link to='/'>
-                    <button>
-                        Back
-                    </button>
-                </Link>
-            </div>
+                        <div className='folders'>
+                            <Link to='/'>
+                                <button>Back</button>
+                            </Link>
+                        </div>
 
-        </div>
+                    </div>
+                );
+            }
+
+            }
+        </NoteContext.Consumer>
     );
 }
 
