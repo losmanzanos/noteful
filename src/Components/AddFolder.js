@@ -1,6 +1,7 @@
 import React from "react";
 import "./AddFolder.css";
 import NoteContext from "./context";
+import PropTypes from "prop-types";
 
 class NewFolder extends React.Component {
   static contextType = NoteContext;
@@ -20,7 +21,7 @@ class NewFolder extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:9090/folders", {
+    fetch("http://localhost:8000/api/folders", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -30,6 +31,7 @@ class NewFolder extends React.Component {
       .then((result) => result.json())
       .then((info) => {
         this.context.getData();
+        this.props.history.push("/");
       })
       .catch((error) => {
         this.setState({
@@ -65,5 +67,8 @@ class NewFolder extends React.Component {
     );
   }
 }
+NewFolder.defaultProps = {
+  history: PropTypes.any,
+};
 
 export default NewFolder;

@@ -28,12 +28,12 @@ class App extends React.Component {
   getData = () => {
     var folders, notes;
 
-    fetch("http://localhost:9090/folders")
+    fetch("http://localhost:8000/api/folders")
       .then((response) => response.json())
       .then((data) => {
         folders = data;
         this.setState({ folders: folders });
-        return fetch("http://localhost:9090/notes");
+        return fetch("http://localhost:8000/api/notes");
       })
 
       .then((response) => response.json())
@@ -49,7 +49,7 @@ class App extends React.Component {
   };
 
   handleDeleteNote = (noteId) => {
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(`http://localhost:8000/api/notes/${noteId}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -96,7 +96,7 @@ class App extends React.Component {
                   <Switch>
                     <Route exact path="/" component={Sidebar} />
                     <Route path="/folders" component={Sidebar} />
-                    <Route path="/notes" component={SidebarNote} />
+                    <Route path="/notes/:id" component={SidebarNote} />
                     <Route path="/newfolder" component={Sidebar} />
                     <Route path="/newnote" component={Sidebar} />
                     <Route

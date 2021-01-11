@@ -12,7 +12,7 @@ class NewNote extends React.Component {
     super(props);
     this.noteName = React.createRef();
     this.noteContent = React.createRef();
-    this.folderId = React.createRef();
+    this.folder_id = React.createRef();
   }
 
   handleSubmit(event) {
@@ -20,10 +20,15 @@ class NewNote extends React.Component {
     const name = this.noteName.current.value;
     const content = this.noteContent.current.value;
     const modified = new Date();
-    const folderId = this.folderId.current.value;
-    const note = { name, content, folderId, modified };
+    const folder_id = this.folder_id.current.value;
+    const note = {
+      name,
+      content,
+      folder_id,
+      modified,
+    };
 
-    fetch("http://localhost:9090/notes", {
+    fetch("http://localhost:8000/api/notes", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -77,7 +82,7 @@ class NewNote extends React.Component {
 
         <div className="form-group">
           <label htmlFor="notefolder">Folder:</label>
-          <select id="notefolder" name="notefolder" ref={this.folderId}>
+          <select id="notefolder" name="notefolder" ref={this.folder_id}>
             {this.context.folders.map((folder) => (
               <option key={folder.id} value={folder.id}>
                 {folder.name}
