@@ -2,6 +2,7 @@ import React from "react";
 import "./AddNote.css";
 import NoteContext from "./context";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 class NewNote extends React.Component {
   state = {
@@ -20,6 +21,7 @@ class NewNote extends React.Component {
     const name = this.noteName.current.value;
     const content = this.noteContent.current.value;
     const modified = new Date();
+    console.log(modified);
     const folder_id = this.folder_id.current.value;
     const note = {
       name,

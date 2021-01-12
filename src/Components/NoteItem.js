@@ -8,7 +8,7 @@ function NoteItem(props) {
     <NoteContext.Consumer>
       {function renderProp(value) {
         const note =
-          value.notes.find((note) => note.id == props.match.params.id) || {};
+          value.notes.find((note) => note.id === props.match.params.id) || {};
         return (
           <div>
             <Note

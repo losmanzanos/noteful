@@ -10,9 +10,9 @@ function SidebarNote(props) {
     <NoteContext.Consumer>
       {function renderProp(context) {
         const note =
-          context.notes.find((note) => note.id == props.match.params.id) || {};
+          context.notes.find((note) => note.id === props.match.params.id) || {};
         const folder =
-          context.folders.find((folder) => folder.id == note.folder_id) || {};
+          context.folders.find((folder) => folder.id === note.folder_id) || {};
         return (
           <div className="sidebar">
             <div className="folders">
