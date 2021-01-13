@@ -14,6 +14,8 @@ import pencil from "../src/pencil.gif";
 
 import NoteContext from "./Components/context";
 
+import config from "./config";
+
 class App extends React.Component {
   state = {
     folders: [],
@@ -28,12 +30,12 @@ class App extends React.Component {
   getData = () => {
     var folders, notes;
 
-    fetch("http://localhost:8000/api/folders")
+    fetch(config.API_ENDPOINT + "/api/folders")
       .then((response) => response.json())
       .then((data) => {
         folders = data;
         this.setState({ folders: folders });
-        return fetch("http://localhost:8000/api/notes");
+        return fetch(config.API_ENDPOINT + "/api/notes");
       })
 
       .then((response) => response.json())
@@ -49,7 +51,7 @@ class App extends React.Component {
   };
 
   handleDeleteNote = (noteId) => {
-    fetch(`http://localhost:8000/api/notes/${noteId}`, {
+    fetch(config.API_ENDPOINT + `/api/notes/${noteId}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
