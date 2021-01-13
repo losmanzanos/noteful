@@ -2,7 +2,6 @@ import React from "react";
 import "./AddNote.css";
 import NoteContext from "./context";
 import PropTypes from "prop-types";
-import moment from "moment";
 
 class NewNote extends React.Component {
   state = {
