@@ -11,7 +11,8 @@ function NotesList(props) {
       {function renderProp(value) {
         const notes = value.notes.filter(
           (note) =>
-            note.folder_id === props.match.params.id || !props.match.params.id
+            note.folder_id === parseInt(props.match.params.id) ||
+            !props.match.params.id
         );
         return (
           <div>

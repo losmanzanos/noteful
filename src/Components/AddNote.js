@@ -2,6 +2,7 @@ import React from "react";
 import "./AddNote.css";
 import NoteContext from "./context";
 import PropTypes from "prop-types";
+import config from "../config";
 
 class NewNote extends React.Component {
   state = {
@@ -29,7 +30,7 @@ class NewNote extends React.Component {
       modified,
     };
 
-    fetch("http://localhost:8000/api/notes", {
+    fetch(`${config.API_ENDPOINT}/api/notes`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

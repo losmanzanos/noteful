@@ -2,6 +2,7 @@ import React from "react";
 import "./AddFolder.css";
 import NoteContext from "./context";
 import PropTypes from "prop-types";
+import config from "../config";
 
 class NewFolder extends React.Component {
   static contextType = NoteContext;
@@ -21,7 +22,7 @@ class NewFolder extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:8000/api/folders", {
+    fetch(`${config.API_ENDPOINT}/api/folders`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
